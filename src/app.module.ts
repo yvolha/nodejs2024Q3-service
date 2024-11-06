@@ -7,7 +7,11 @@ import { UserModule } from './server/user/user.module';
   imports: [
     UserModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [
+    AppController,
+  ],
+  providers: [
+    AppService,
+  ],
 })
 export class AppModule {}
