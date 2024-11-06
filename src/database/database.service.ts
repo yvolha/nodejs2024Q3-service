@@ -6,14 +6,14 @@ import { Database } from "./database.type";
 export class DatabaseService implements Database {
 
   public users = [{
-        id: 'hehe',
+        id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
       login: 'hehe',
       password: 'hehe',
       version: 5,
       createdAt: 5,
       updatedAt: 5,
       }, {
-        id: 'ss',
+        id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
       login: 'ss',
       password: 'ss',
       version: 5,

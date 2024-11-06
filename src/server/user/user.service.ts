@@ -8,7 +8,6 @@ export class UserService {
 
 
   getAll(): any {
-    console.log(this.databaseService.users);
-    return JSON.stringify(this.databaseService.users);
+    return this.databaseService.users;
   }
 }
