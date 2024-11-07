@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.type';
-import { IdParam } from '../types';
+import { IdParam } from '../../types';
 
 
 @Controller('user')
