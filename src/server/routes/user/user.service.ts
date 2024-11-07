@@ -3,6 +3,7 @@ import { DatabaseService } from 'src/database/database.service';
 import { User } from './user.type';
 import throwErrorOnInvalidUuid from 'src/server/util/throw-error-on-invalid-uuid.util';
 import { CreateUserDto } from './user.dto';
+import { v4 } from 'uuid';
 
 @Injectable()
 export class UserService {
@@ -22,6 +23,17 @@ export class UserService {
     login,
     password,
   }: CreateUserDto) {
+    const currentTime = Date.now();
+
+    const newUser: User = {
+      id: v4(),
+      login,
+      password,
+      version: 1,
+      createdAt: currentTime,
+      updatedAt: currentTime,
+    }
     
+    this.databaseService.users.push(newUser);
   }
 }
