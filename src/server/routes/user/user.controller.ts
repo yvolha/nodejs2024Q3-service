@@ -4,6 +4,7 @@ import { User } from './user.model';
 import { IdParam } from '../../types';
 import { ERROR_MASSAGES } from 'src/server/error-messages.constant';
 import { CreateUserDto } from './user.dto';
+import throwErrorOnInvalidUuid from 'src/server/util/throw-error-on-invalid-uuid.util';
 
 
 @Controller('user')
@@ -17,6 +18,8 @@ export class UserController {
 
   @Get(':id')
   getOne(@Param() { id }: IdParam): User {
+
+    throwErrorOnInvalidUuid(id);
 
     const user = this.userService.getOne(id);
 
