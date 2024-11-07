@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
-import { User } from './user.type';
+import { User } from './user.model';
 import throwErrorOnInvalidUuid from 'src/server/util/throw-error-on-invalid-uuid.util';
 import { CreateUserDto } from './user.dto';
 import { v4 } from 'uuid';
@@ -22,7 +22,7 @@ export class UserService {
   createOne({
     login,
     password,
-  }: CreateUserDto) {
+  }: CreateUserDto): Omit<User, 'password'> {
     const currentTime = Date.now();
 
     const newUser: User = {
@@ -35,5 +35,7 @@ export class UserService {
     }
     
     this.databaseService.users.push(newUser);
+
+    return 
   }
 }

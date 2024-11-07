@@ -1,8 +1,9 @@
-import { Controller, Get, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
 import { UserService } from './user.service';
-import { User } from './user.type';
+import { User } from './user.model';
 import { IdParam } from '../../types';
 import { ERROR_MASSAGES } from 'src/server/error-messages.constant';
+import { CreateUserDto } from './user.dto';
 
 
 @Controller('user')
@@ -27,7 +28,7 @@ export class UserController {
   }
 
   @Post()
-  createOne(){
+  createOne(@Body() createUserDto: CreateUserDto){
     
   }
 }

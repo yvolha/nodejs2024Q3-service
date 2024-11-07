@@ -1,4 +1,4 @@
-import { User } from "src/server/routes/user/user.type";
+import { User } from "src/server/routes/user/user.model";
 import { Album, Artist, Favorites, Track } from "src/types";
 
 export interface Database {
