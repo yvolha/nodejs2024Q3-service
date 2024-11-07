@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { User } from './user.type';
+import throwErrorOnInvalidUuid from 'src/server/util/throw-error-on-invalid-uuid.util';
+import { CreateUserDto } from './user.dto';
 
 @Injectable()
 export class UserService {
@@ -11,13 +13,15 @@ export class UserService {
   }
 
   getOne(id: string): User {
-    return this.databaseService.users.find(user => user.id === id);
+    throwErrorOnInvalidUuid(id);
+  
+    return this.databaseService.users.find(user => user.id === id);;
   }
 
   createOne({
     login,
     password,
-  }) {
+  }: CreateUserDto) {
     
   }
 }
