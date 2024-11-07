@@ -21,7 +21,7 @@ export class UserService {
   createOne({
     login,
     password,
-  }: CreateUserDto): Omit<User, 'password'> {
+  }: CreateUserDto): User {
     const currentTime = Date.now();
 
     const newUser: User = {
@@ -35,6 +35,6 @@ export class UserService {
     
     this.databaseService.users.push(newUser);
 
-    return 
+    return newUser;
   }
 }
