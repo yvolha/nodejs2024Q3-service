@@ -17,7 +17,11 @@ export class User {
 
   @IsDate()
   createdAt: number; // timestamp of creation
-  
+
   @IsDate()
   updatedAt: number; // timestamp of last update
+
+  constructor(partial: Partial<User>) {
+    Object.assign(this, partial);
+  }
 }

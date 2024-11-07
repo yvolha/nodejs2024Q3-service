@@ -1,11 +1,11 @@
-import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Param, ParseUUIDPipe, Post } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, HttpCode, HttpException, HttpStatus, Param, ParseUUIDPipe, Post, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.model';
 import { IdParam } from '../../types';
 import { ERROR_MASSAGES } from 'src/server/error-messages.constant';
 import { CreateUserDto } from './user.dto';
 
-
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -24,7 +24,7 @@ export class UserController {
       throw new HttpException(ERROR_MASSAGES.NON_EXISTENT_ENTITY, HttpStatus.NOT_FOUND);
     }
 
-    return user
+    return new User(user);
   }
 
   @Post()
