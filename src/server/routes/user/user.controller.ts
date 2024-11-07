@@ -1,10 +1,9 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpException, HttpStatus, Param, ParseUUIDPipe, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.model';
 import { IdParam } from '../../types';
 import { ERROR_MASSAGES } from 'src/server/error-messages.constant';
 import { CreateUserDto } from './user.dto';
-import throwErrorOnInvalidUuid from 'src/server/util/throw-error-on-invalid-uuid.util';
 
 
 @Controller('user')
@@ -17,9 +16,7 @@ export class UserController {
   }
 
   @Get(':id')
-  getOne(@Param() { id }: IdParam): User {
-
-    throwErrorOnInvalidUuid(id);
+  getOne(@Param('id', new ParseUUIDPipe({ version: '4'})) { id }: IdParam): User {
 
     const user = this.userService.getOne(id);
 
@@ -31,6 +28,7 @@ export class UserController {
   }
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   createOne(@Body() createUserDto: CreateUserDto){
     
   }
