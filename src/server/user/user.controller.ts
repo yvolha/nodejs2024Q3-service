@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.type';
 import { IdParam } from '../types';
@@ -16,5 +16,10 @@ export class UserController {
   @Get(':id')
   getOne(@Param() { id }: IdParam): User {
     return this.userService.getOne(id);
+  }
+
+  @Post()
+  createOne(){
+    
   }
 }

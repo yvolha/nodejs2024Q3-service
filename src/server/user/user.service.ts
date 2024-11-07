@@ -13,4 +13,11 @@ export class UserService {
   getOne(id: string): User {
     return this.databaseService.users.find(user => user.id === id);
   }
+
+  createOne({
+    login,
+    password,
+  }) {
+    
+  }
 }
