@@ -4,9 +4,10 @@ import { User } from './user.model';
 import { IdParam } from '../../types';
 import { ERROR_MASSAGES } from 'src/server/error-messages.constant';
 import { CreateUserDto } from './user.dto';
+import { ROUTES } from '../routes.constant';
 
 @UseInterceptors(ClassSerializerInterceptor)
-@Controller('user')
+@Controller(ROUTES.USER)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
