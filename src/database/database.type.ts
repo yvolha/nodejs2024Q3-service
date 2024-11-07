@@ -1,4 +1,5 @@
-import { Album, Artist, Favorites, Track, User } from "src/types";
+import { User } from "src/server/user/user.type";
+import { Album, Artist, Favorites, Track } from "src/types";
 
 export interface Database {
   users: User[];

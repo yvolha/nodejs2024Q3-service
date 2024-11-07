@@ -1,6 +1,8 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { UserService } from './user.service';
-import { User } from 'src/types';
+import { User } from './user.type';
+import { IdParam } from '../types';
+
 
 @Controller('user')
 export class UserController {
@@ -9,5 +11,10 @@ export class UserController {
   @Get()
   getAll(): User[] {
     return this.userService.getAll();
+  }
+
+  @Get(':id')
+  getOne(@Param() { id }: IdParam): User {
+    return this.userService.getOne(id);
   }
 }
