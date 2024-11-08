@@ -1,4 +1,4 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, HttpCode, HttpException, HttpStatus, Param, ParseUUIDPipe, Post, Put, UseInterceptors } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, ParseUUIDPipe, Post, Put, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.model';
 import { ERROR_MESSAGES } from 'src/server/error-messages.constant';
@@ -17,14 +17,12 @@ export class UserController {
 
   @Get(':id')
   getOne(@Param('id', new ParseUUIDPipe({ version: '4'})) id: string): User {
-    console.log('!!!',id)
 
     const user = this.userService.getOne(id);
 
     if (!user) {
       throw new HttpException(ERROR_MESSAGES.NON_EXISTENT_ENTITY, HttpStatus.NOT_FOUND);
     }
-    console.log(user)
 
     return new User(user);
   }
@@ -33,7 +31,7 @@ export class UserController {
   @HttpCode(HttpStatus.CREATED)
   createOne(@Body() createUserDto: CreateUserDto){
     const newUser = this.userService.createOne(createUserDto);
-    console.log(newUser, '---createOne')
+
     return new User(newUser);
   }
   
@@ -55,5 +53,20 @@ export class UserController {
     }
 
     return new User(updatedUser);
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  deleteUser(@Param('id', new ParseUUIDPipe({ version: '4'})) id: string) {
+    const user = this.userService.getOne(id);
+
+    if (!user) {
+      throw new HttpException(
+        ERROR_MESSAGES.NON_EXISTENT_ENTITY,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    this.userService.deleteOne(id);
   }
 }

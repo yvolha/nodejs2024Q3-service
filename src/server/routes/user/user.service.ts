@@ -62,4 +62,10 @@ export class UserService {
 
     return updatedUser;
   }
+
+  deleteOne(id: string){
+    console.log(id, 'id in deleteone')
+    this.databaseService.users = this.databaseService.users.filter(user => user.id !== id);
+    console.log('this.databaseService.users',this.databaseService.users)
+  }
 }
