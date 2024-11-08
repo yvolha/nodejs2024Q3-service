@@ -9,19 +9,14 @@ export class UserService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   getAll(): User[] {
-
     return this.databaseService.users;
   }
 
   getOne(id: string): User {
-
-    return this.databaseService.users.find(user => user.id === id);
+    return this.databaseService.users.find((user) => user.id === id);
   }
 
-  createOne({
-    login,
-    password,
-  }: CreateUserDto): User {
+  createOne({ login, password }: CreateUserDto): User {
     const currentTime = Date.now();
 
     const newUser: User = {
@@ -31,8 +26,8 @@ export class UserService {
       version: 1,
       createdAt: currentTime,
       updatedAt: currentTime,
-    }
-    
+    };
+
     this.databaseService.users.push(newUser);
 
     return newUser;
@@ -42,9 +37,11 @@ export class UserService {
     id,
     oldPassword,
     newPassword,
-  }: UpdatePasswordDto & {id: string}): User | null {
-    const user = this.databaseService.users.find(user => user.id === id);
-    const userIndex =  this.databaseService.users.findIndex(user => user.id === id);
+  }: UpdatePasswordDto & { id: string }): User | null {
+    const user = this.databaseService.users.find((user) => user.id === id);
+    const userIndex = this.databaseService.users.findIndex(
+      (user) => user.id === id,
+    );
 
     if (!user || user.password !== oldPassword) {
       return null;
@@ -57,15 +54,14 @@ export class UserService {
       password: newPassword,
     };
 
-
     this.databaseService.users[userIndex] = updatedUser;
 
     return updatedUser;
   }
 
-  deleteOne(id: string){
-    console.log(id, 'id in deleteone')
-    this.databaseService.users = this.databaseService.users.filter(user => user.id !== id);
-    console.log('this.databaseService.users',this.databaseService.users)
+  deleteOne(id: string) {
+    this.databaseService.users = this.databaseService.users.filter(
+      (user) => user.id !== id,
+    );
   }
 }

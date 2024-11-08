@@ -1,5 +1,5 @@
-import { Exclude } from "class-transformer";
-import { IsDate, IsInt, IsString, IsUUID, Min } from "class-validator";
+import { Exclude } from 'class-transformer';
+import { IsDate, IsInt, IsString, IsUUID, Min } from 'class-validator';
 
 export class User {
   @IsUUID()
@@ -12,6 +12,7 @@ export class User {
   password: string;
 
   @IsInt()
+  @Min(1)
   version: number; // integer number, increments on update
 
   @IsDate()

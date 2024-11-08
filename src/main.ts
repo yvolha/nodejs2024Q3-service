@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import * as dotenv from 'dotenv'
+import * as dotenv from 'dotenv';
 
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
@@ -10,13 +10,14 @@ const SERVER_PORT = +process.env.PORT || DEFAULT_PORT;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(  
-    new ValidationPipe({  
-      whitelist: true,  
-      transform: true,  
-    })),  
-  await app.listen(SERVER_PORT, () => {
-    console.log(`Server is running on http://localhost:${SERVER_PORT}`);
-  });
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+    }),
+  ),
+    await app.listen(SERVER_PORT, () => {
+      console.log(`Server is running on http://localhost:${SERVER_PORT}`);
+    });
 }
 bootstrap();
