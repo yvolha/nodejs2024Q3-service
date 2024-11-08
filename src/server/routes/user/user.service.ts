@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { User } from './user.model';
-import { CreateUserDto } from './user.dto';
+import { CreateUserDto, UpdatePasswordDto } from './user.dto';
 import { v4 } from 'uuid';
 
 @Injectable()
@@ -15,7 +15,7 @@ export class UserService {
 
   getOne(id: string): User {
 
-    return this.databaseService.users.find(user => user.id === id);;
+    return this.databaseService.users.find(user => user.id === id);
   }
 
   createOne({
@@ -36,5 +36,30 @@ export class UserService {
     this.databaseService.users.push(newUser);
 
     return newUser;
+  }
+
+  updateOne({
+    id,
+    oldPassword,
+    newPassword,
+  }: UpdatePasswordDto & {id: string}): User | null {
+    const user = this.databaseService.users.find(user => user.id === id);
+    const userIndex =  this.databaseService.users.findIndex(user => user.id === id);
+
+    if (!user || user.password !== oldPassword) {
+      return null;
+    }
+
+    const updatedUser = {
+      ...user,
+      version: user.version + 1,
+      updatedAt: Date.now(),
+      password: newPassword,
+    };
+
+
+    this.databaseService.users[userIndex] = updatedUser;
+
+    return updatedUser;
   }
 }

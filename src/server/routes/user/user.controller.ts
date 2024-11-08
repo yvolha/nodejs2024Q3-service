@@ -1,12 +1,12 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, HttpCode, HttpException, HttpStatus, Param, ParseUUIDPipe, Post, UseInterceptors } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, HttpCode, HttpException, HttpStatus, Param, ParseUUIDPipe, Post, Put, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.model';
 import { ERROR_MESSAGES } from 'src/server/error-messages.constant';
-import { CreateUserDto } from './user.dto';
+import { CreateUserDto, UpdatePasswordDto } from './user.dto';
 import { ROUTES } from '../routes.constant';
 
-@UseInterceptors(ClassSerializerInterceptor)
 @Controller(ROUTES.USER)
+@UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -35,5 +35,25 @@ export class UserController {
     const newUser = this.userService.createOne(createUserDto);
     console.log(newUser, '---createOne')
     return new User(newUser);
+  }
+  
+  @Put(':id')
+  updateOne(
+    @Param('id', new ParseUUIDPipe({ version: '4'})) id: string,
+    @Body() updatePasswordDto: UpdatePasswordDto,
+  ){
+    const user = this.userService.getOne(id);
+
+    if (!user) {
+      throw new HttpException(ERROR_MESSAGES.NON_EXISTENT_ENTITY, HttpStatus.NOT_FOUND);
+    }
+
+    const updatedUser = this.userService.updateOne({id, ...updatePasswordDto});
+
+    if (!updatedUser) {
+      throw new HttpException(ERROR_MESSAGES.WRONG_PASSWORD, HttpStatus.FORBIDDEN);
+    }
+
+    return new User(updatedUser);
   }
 }

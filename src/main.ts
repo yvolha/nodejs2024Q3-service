@@ -15,6 +15,8 @@ async function bootstrap() {
       whitelist: true,  
       transform: true,  
     })),  
-  await app.listen(SERVER_PORT);
+  await app.listen(SERVER_PORT, () => {
+    console.log(`Server is running on http://localhost:${SERVER_PORT}`);
+  });
 }
 bootstrap();

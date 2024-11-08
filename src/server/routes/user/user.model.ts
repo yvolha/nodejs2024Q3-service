@@ -12,7 +12,6 @@ export class User {
   password: string;
 
   @IsInt()
-  @Min(1)
   version: number; // integer number, increments on update
 
   @IsDate()
