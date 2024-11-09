@@ -7,7 +7,7 @@ import { Artist } from "./artist.model";
 @Controller(ROUTES.ARTIST)
 @UseInterceptors(ClassSerializerInterceptor)
 export class ArtistController {
-  constructor(private readonly baseService: BaseService) {}
+  constructor(private readonly baseService: BaseService<Artist>) {}
 
   @Get()
   getAll(): Artist[] {
