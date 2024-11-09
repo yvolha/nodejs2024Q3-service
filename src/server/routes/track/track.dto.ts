@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class CreateTrackDto {
   @IsString()
@@ -6,11 +6,11 @@ export class CreateTrackDto {
   name: string;
 
   @IsUUID()
-  @IsNotEmpty()
+  @IsOptional()
   artistId: string | null; // refers to Artist
 
   @IsUUID()
-  @IsNotEmpty()
+  @IsOptional()
   albumId: string | null; // refers to Album
 
   @IsInt()
@@ -20,14 +20,18 @@ export class CreateTrackDto {
 
 export class UpdateTrackDto {
   @IsString()
+  @IsOptional()
   name: string;
 
-  // @IsUUID()
-  // artistId: string | null; // refers to Artist
+  @IsUUID()
+  @IsOptional()
+  artistId: string | null; // refers to Artist
 
-  // @IsUUID()
-  // albumId: string | null; // refers to Album
+  @IsUUID()
+  @IsOptional()
+  albumId: string | null; // refers to Album
 
   @IsInt()
+  @IsOptional()
   duration: number; // integer number
 }

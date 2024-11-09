@@ -13,25 +13,25 @@ import {
   Put,
   UseInterceptors,
 } from '@nestjs/common';
-import { BaseService } from 'src/server/shared/base.service';
 import { ROUTES } from '../routes.constant';
 import { Artist } from './artist.model';
 import { ERROR_MESSAGES } from 'src/server/error-messages.constant';
 import { CreateArtistDto, UpdateArtistDto } from './artist.dto';
+import { ArtistService } from './artist.service';
 
 @Controller(ROUTES.ARTIST)
 @UseInterceptors(ClassSerializerInterceptor)
 export class ArtistController {
-  constructor(private readonly baseService: BaseService<Artist>) {}
+  constructor(private readonly artistService: ArtistService) {}
 
   @Get()
   getAll(): Artist[] {
-    return this.baseService.getAll(ROUTES.ARTIST);
+    return this.artistService.getAll();
   }
 
   @Get(':id')
   getOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): Artist {
-    const entity = this.baseService.getOne(ROUTES.ARTIST, id);
+    const entity = this.artistService.getOne(id);
 
     if (!entity) {
       throw new HttpException(
@@ -46,7 +46,7 @@ export class ArtistController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   createOne(@Body() createDto: CreateArtistDto) {
-    const newEntity = this.baseService.createOne(ROUTES.ARTIST, createDto);
+    const newEntity = this.artistService.createOne(createDto);
 
     return newEntity;
   }
@@ -56,7 +56,7 @@ export class ArtistController {
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateDto: UpdateArtistDto,
   ) {
-    const entity = this.baseService.getOne(ROUTES.ARTIST, id);
+    const entity = this.artistService.getOne(id);
 
     if (!entity) {
       throw new HttpException(
@@ -65,8 +65,7 @@ export class ArtistController {
       );
     }
 
-    const updatedEntity = this.baseService.updateOne(
-      ROUTES.ARTIST,
+    const updatedEntity = this.artistService.updateOne(
       id,
       updateDto,
     );
@@ -84,7 +83,7 @@ export class ArtistController {
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   deleteUser(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    const entity = this.baseService.getOne(ROUTES.ARTIST, id);
+    const entity = this.artistService.getOne(id);
 
     if (!entity) {
       throw new HttpException(
@@ -93,6 +92,6 @@ export class ArtistController {
       );
     }
 
-    this.baseService.deleteOne(ROUTES.ARTIST, id);
+    this.artistService.deleteOne(id);
   }
 }

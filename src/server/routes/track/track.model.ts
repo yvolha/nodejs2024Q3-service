@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class Track {
   @IsUUID()
@@ -9,9 +9,11 @@ export class Track {
   name: string;
 
   @IsUUID()
+  @IsOptional()
   artistId: string | null; // refers to Artist
 
   @IsUUID()
+  @IsOptional()
   albumId: string | null; // refers to Album
 
   @IsInt()

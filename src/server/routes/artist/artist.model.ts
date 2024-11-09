@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class Artist {
   @IsUUID()
@@ -11,5 +11,6 @@ export class Artist {
 
   @IsBoolean()
   @IsNotEmpty()
+  @IsOptional()
   grammy: boolean;
 }
