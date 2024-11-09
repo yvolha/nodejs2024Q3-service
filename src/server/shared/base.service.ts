@@ -4,10 +4,10 @@ import { Artist } from '../routes/artist/artist.model';
 import { Album } from '../routes/album/album.model';
 import { Track } from '../routes/track/track.model';
 import { BaseRoute } from './base.type';
-import { CreateArtistDto } from '../routes/artist/artist.dto';
+import { CreateArtistDto, UpdateArtistDto } from '../routes/artist/artist.dto';
 import { v4 } from 'uuid';
-import { CreateAlbumDto } from '../routes/album/album.dto';
-import { CreateTrackDto } from '../routes/track/track.dto';
+import { CreateAlbumDto, UpdateAlbumDto } from '../routes/album/album.dto';
+import { CreateTrackDto, UpdateTrackDto } from '../routes/track/track.dto';
 
 
 // to handle Album, Artist, Track
@@ -36,5 +36,29 @@ export class BaseService<T extends Album | Artist | Track> {
       return newEntity as unknown as T;
   }
 
-  
+  updateOne(route: BaseRoute, id: string, dto: UpdateArtistDto | UpdateAlbumDto | UpdateTrackDto): T {
+    const entity = this.databaseService[route].find((entity) => entity.id === id);
+    const entityIndex = this.databaseService[route].findIndex(
+      (entity) => entity.id === id,
+    );
+
+    if (!entity) {
+      return null;
+    }
+
+    const updatedEntity = {
+      ...entity,
+      ...dto
+    };
+
+    this.databaseService[route][entityIndex] = updatedEntity;
+
+    return updatedEntity;
+  }
+
+  deleteOne(route: BaseRoute, id: string) {
+    this.databaseService[route] = this.databaseService[route].filter(
+      (entity) => entity.id !== id,
+    );
+  }
 }

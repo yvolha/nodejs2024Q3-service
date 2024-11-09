@@ -12,3 +12,14 @@ export class CreateAlbumDto {
   @IsUUID()
   artistId: string | null; // refers to Artist
 }
+
+export class UpdateAlbumDto {
+  @IsString()
+  name: string;
+
+  @IsInt()
+  year: number;
+
+  //@IsUUID()
+ // artistId: string | null; // refers to Artist
+}
