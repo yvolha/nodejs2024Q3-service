@@ -8,7 +8,7 @@ export class BaseService {
   constructor(private readonly databaseService: DatabaseService) {}
   
   getAll(route: ROUTES) {
-    
+    return this.databaseService[route];
   }
   
 }

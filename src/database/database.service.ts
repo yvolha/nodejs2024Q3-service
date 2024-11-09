@@ -4,7 +4,7 @@ import { Database } from './database.type';
 
 @Injectable()
 export class DatabaseService implements Database {
-  public users = [
+  public user = [
     {
       id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
       login: 'hehe',
@@ -23,11 +23,11 @@ export class DatabaseService implements Database {
     },
   ];
 
-  artists = [];
+  artist = [];
 
-  albums = [];
+  album = [];
 
-  tracks = [];
+  track = [];
 
   favorites = [];
 }

@@ -9,11 +9,11 @@ export class UserService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   getAll(): User[] {
-    return this.databaseService.users;
+    return this.databaseService.user;
   }
 
   getOne(id: string): User {
-    return this.databaseService.users.find((user) => user.id === id);
+    return this.databaseService.user.find((user) => user.id === id);
   }
 
   createOne({ login, password }: CreateUserDto): User {
@@ -28,7 +28,7 @@ export class UserService {
       updatedAt: currentTime,
     };
 
-    this.databaseService.users.push(newUser);
+    this.databaseService.user.push(newUser);
 
     return newUser;
   }
@@ -38,8 +38,8 @@ export class UserService {
     oldPassword,
     newPassword,
   }: UpdatePasswordDto & { id: string }): User | null {
-    const user = this.databaseService.users.find((user) => user.id === id);
-    const userIndex = this.databaseService.users.findIndex(
+    const user = this.databaseService.user.find((user) => user.id === id);
+    const userIndex = this.databaseService.user.findIndex(
       (user) => user.id === id,
     );
 
@@ -54,13 +54,13 @@ export class UserService {
       password: newPassword,
     };
 
-    this.databaseService.users[userIndex] = updatedUser;
+    this.databaseService.user[userIndex] = updatedUser;
 
     return updatedUser;
   }
 
   deleteOne(id: string) {
-    this.databaseService.users = this.databaseService.users.filter(
+    this.databaseService.user = this.databaseService.user.filter(
       (user) => user.id !== id,
     );
   }
