@@ -5,7 +5,6 @@ import { v4 } from 'uuid';
 import { Artist } from './artist.model';
 import { CreateArtistDto, UpdateArtistDto } from './artist.dto';
 
-
 @Injectable()
 export class ArtistService {
   constructor(private readonly databaseService: DatabaseService) {}
@@ -18,9 +17,7 @@ export class ArtistService {
     return this.databaseService.artist.find((entity) => entity.id === id);
   }
 
-  createOne(
-    dto: CreateArtistDto,
-  ): Artist {
+  createOne(dto: CreateArtistDto): Artist {
     const newEntity = {
       id: v4(),
       ...dto,
@@ -31,10 +28,7 @@ export class ArtistService {
     return newEntity;
   }
 
-  updateOne(
-    id: string,
-    dto: UpdateArtistDto,
-  ): Artist {
+  updateOne(id: string, dto: UpdateArtistDto): Artist {
     const entity = this.databaseService.artist.find(
       (entity) => entity.id === id,
     );
@@ -58,16 +52,16 @@ export class ArtistService {
   }
 
   deleteOne(id: string) {
-      this.databaseService.artist = this.databaseService.artist.filter(
-        (artist) => artist.id !== id,
-      );
+    this.databaseService.artist = this.databaseService.artist.filter(
+      (artist) => artist.id !== id,
+    );
 
-      this.databaseService.track.forEach((track) =>
-        track.artistId === id ? (track.artistId = null) : track.artistId,
-      );
-  
-      this.databaseService.album.forEach((album) =>
-        album.artistId === id ? (album.artistId = null) : album.artistId,
-      );
-    }
+    this.databaseService.track.forEach((track) =>
+      track.artistId === id ? (track.artistId = null) : track.artistId,
+    );
+
+    this.databaseService.album.forEach((album) =>
+      album.artistId === id ? (album.artistId = null) : album.artistId,
+    );
+  }
 }

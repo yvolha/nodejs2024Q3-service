@@ -65,10 +65,7 @@ export class ArtistController {
       );
     }
 
-    const updatedEntity = this.artistService.updateOne(
-      id,
-      updateDto,
-    );
+    const updatedEntity = this.artistService.updateOne(id, updateDto);
 
     if (!updatedEntity) {
       throw new HttpException(

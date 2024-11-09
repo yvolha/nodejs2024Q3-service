@@ -66,10 +66,7 @@ export class AlbumController {
       );
     }
 
-    const updatedEntity = this.albumService.updateOne(
-      id,
-      updateDto,
-    );
+    const updatedEntity = this.albumService.updateOne(id, updateDto);
 
     if (!updatedEntity) {
       throw new HttpException(

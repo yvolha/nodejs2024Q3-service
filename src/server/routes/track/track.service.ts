@@ -5,8 +5,6 @@ import { v4 } from 'uuid';
 import { Track } from './track.model';
 import { CreateTrackDto, UpdateTrackDto } from './track.dto';
 
-
-
 @Injectable()
 export class TrackService {
   constructor(private readonly databaseService: DatabaseService) {}
@@ -19,9 +17,7 @@ export class TrackService {
     return this.databaseService.track.find((entity) => entity.id === id);
   }
 
-  createOne(
-    dto: CreateTrackDto,
-  ): Track {
+  createOne(dto: CreateTrackDto): Track {
     const newEntity = {
       id: v4(),
       ...dto,
@@ -32,10 +28,7 @@ export class TrackService {
     return newEntity;
   }
 
-  updateOne(
-    id: string,
-    dto: UpdateTrackDto,
-  ): Track {
+  updateOne(id: string, dto: UpdateTrackDto): Track {
     const entity = this.databaseService.track.find(
       (entity) => entity.id === id,
     );
@@ -59,8 +52,8 @@ export class TrackService {
   }
 
   deleteOne(id: string) {
-      this.databaseService.track = this.databaseService.track.filter(
-        (track) => track.id !== id,
-      );
-    }
+    this.databaseService.track = this.databaseService.track.filter(
+      (track) => track.id !== id,
+    );
+  }
 }

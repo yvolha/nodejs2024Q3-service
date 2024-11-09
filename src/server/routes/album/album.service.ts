@@ -5,8 +5,6 @@ import { v4 } from 'uuid';
 import { Album } from './album.model';
 import { CreateAlbumDto, UpdateAlbumDto } from './album.dto';
 
-
-
 @Injectable()
 export class AlbumService {
   constructor(private readonly databaseService: DatabaseService) {}
@@ -19,9 +17,7 @@ export class AlbumService {
     return this.databaseService.album.find((entity) => entity.id === id);
   }
 
-  createOne(
-    dto: CreateAlbumDto,
-  ): Album {
+  createOne(dto: CreateAlbumDto): Album {
     const newEntity = {
       id: v4(),
       ...dto,
@@ -32,10 +28,7 @@ export class AlbumService {
     return newEntity;
   }
 
-  updateOne(
-    id: string,
-    dto: UpdateAlbumDto,
-  ): Album {
+  updateOne(id: string, dto: UpdateAlbumDto): Album {
     const entity = this.databaseService.album.find(
       (entity) => entity.id === id,
     );
@@ -59,12 +52,12 @@ export class AlbumService {
   }
 
   deleteOne(id: string) {
-      this.databaseService.album = this.databaseService.album.filter(
-        (album) => album.id !== id,
-      );
+    this.databaseService.album = this.databaseService.album.filter(
+      (album) => album.id !== id,
+    );
 
-      this.databaseService.track.forEach((track) =>
-        track.albumId === id ? (track.albumId = null) : track.albumId,
-      );
-    }
+    this.databaseService.track.forEach((track) =>
+      track.albumId === id ? (track.albumId = null) : track.albumId,
+    );
+  }
 }

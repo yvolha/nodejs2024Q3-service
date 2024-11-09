@@ -20,7 +20,6 @@ import { TrackService } from './track.service';
 import { Track } from './track.model';
 import { CreateTrackDto, UpdateTrackDto } from './track.dto';
 
-
 @Controller(ROUTES.TRACK)
 @UseInterceptors(ClassSerializerInterceptor)
 export class TrackController {
@@ -67,10 +66,7 @@ export class TrackController {
       );
     }
 
-    const updatedEntity = this.trackService.updateOne(
-            id,
-      updateDto,
-    );
+    const updatedEntity = this.trackService.updateOne(id, updateDto);
 
     if (!updatedEntity) {
       throw new HttpException(
