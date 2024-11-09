@@ -1,23 +1,23 @@
 import { ClassSerializerInterceptor, Controller, Get, HttpException, HttpStatus, Param, ParseUUIDPipe, UseInterceptors } from "@nestjs/common";
 import { BaseService } from "src/server/shared/base.service";
 import { ROUTES } from "../routes.constant";
-import { Artist } from "./artist.model";
+import { Album } from "./album.model";
 import { ERROR_MESSAGES } from "src/server/error-messages.constant";
 
 
-@Controller(ROUTES.ARTIST)
+@Controller(ROUTES.ALBUM)
 @UseInterceptors(ClassSerializerInterceptor)
-export class ArtistController {
-  constructor(private readonly baseService: BaseService<Artist>) {}
+export class AlbumController {
+  constructor(private readonly baseService: BaseService<Album>) {}
 
   @Get()
-  getAll(): Artist[] {
-    return this.baseService.getAll(ROUTES.ARTIST);
+  getAll(): Album[] {
+    return this.baseService.getAll(ROUTES.ALBUM);
   }
 
   @Get(':id')
-  getOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): Artist {
-    const entity = this.baseService.getOne(ROUTES.ARTIST, id);
+  getOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): Album {
+    const entity = this.baseService.getOne(ROUTES.ALBUM, id);
 
     if (!entity) {
       throw new HttpException(

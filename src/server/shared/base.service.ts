@@ -5,6 +5,7 @@ import { Artist } from '../routes/artist/artist.model';
 import { Album } from '../routes/album/album.model';
 import { Track } from '../routes/track/track.model';
 import { Database } from 'src/database/database.type';
+import { BaseRoute } from './base.type';
 
 
 // to handle Album, Artist, Track
@@ -13,9 +14,11 @@ export class BaseService<T extends Album | Artist | Track> {
   constructor(private readonly databaseService: DatabaseService) {}
   
   
-  getAll(route: ROUTES.ALBUM | ROUTES.ARTIST | ROUTES.TRACK): T[]  {
+  getAll(route: BaseRoute): T[]  {
     return this.databaseService[route] as T[];
   }
   
-  
+  getOne(route: BaseRoute, id: string): T {
+    return this.databaseService[route].find((entity) => entity.id === id);
+  }
 }
