@@ -63,12 +63,8 @@ export class AlbumService {
         (album) => album.id !== id,
       );
 
-      const albumIndexInTrack = this.databaseService.track.findIndex(
-        (track) => track.albumId === id,
+      this.databaseService.track.forEach((track) =>
+        track.albumId === id ? (track.albumId = null) : track.albumId,
       );
-
-      if (albumIndexInTrack) {
-        this.databaseService.track[albumIndexInTrack].albumId = null;
-      }
     }
 }

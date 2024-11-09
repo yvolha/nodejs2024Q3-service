@@ -62,21 +62,12 @@ export class ArtistService {
         (artist) => artist.id !== id,
       );
 
-      const artistIndexInAlbum = this.databaseService.album.findIndex(
-        (album) => album.artistId === id,
+      this.databaseService.track.forEach((track) =>
+        track.artistId === id ? (track.artistId = null) : track.artistId,
       );
-
-      
-      const artistIndexInTrack = this.databaseService.track.findIndex(
-        (track) => track.artistId === id,
+  
+      this.databaseService.album.forEach((album) =>
+        album.artistId === id ? (album.artistId = null) : album.artistId,
       );
-
-      if (artistIndexInAlbum) {
-        // this.databaseService.album[artistIndexInAlbum].artistId = null;
-      }
-
-      if (artistIndexInTrack) {
-       // this.databaseService.track[artistIndexInTrack].artistId = null;
-      }
     }
 }
