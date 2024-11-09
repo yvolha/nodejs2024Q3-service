@@ -6,10 +6,7 @@ import { BaseService } from 'src/server/shared/base.service';
 import { ArtistController } from './artist.controller';
 
 @Module({
-  imports: [
-    DatabaseModule,
-    BaseModule,
-  ],
+  imports: [DatabaseModule, BaseModule],
   controllers: [ArtistController],
   providers: [BaseService],
 })

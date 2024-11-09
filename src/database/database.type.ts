@@ -9,5 +9,5 @@ export interface Database {
   artist: Artist[];
   album: Album[];
   track: Track[];
-  favorites: Favorites[];
+  favorites: Favorites;
 }

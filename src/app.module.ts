@@ -7,12 +7,7 @@ import { AlbumModule } from './server/routes/album/album.module';
 import { TrackModule } from './server/routes/track/track.module';
 
 @Module({
-  imports: [
-    UserModule,
-    ArtistModule,
-    AlbumModule,
-    TrackModule,
-  ],
+  imports: [UserModule, ArtistModule, AlbumModule, TrackModule],
   controllers: [AppController],
   providers: [AppService],
 })

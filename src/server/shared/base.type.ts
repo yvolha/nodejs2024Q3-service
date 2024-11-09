@@ -1,3 +1,3 @@
-import { ROUTES } from "../routes/routes.constant";
+import { ROUTES } from '../routes/routes.constant';
 
-export type BaseRoute = ROUTES.ALBUM | ROUTES.ARTIST | ROUTES.TRACK
+export type BaseRoute = ROUTES.ALBUM | ROUTES.ARTIST | ROUTES.TRACK;

@@ -1,9 +1,17 @@
-import { ClassSerializerInterceptor, Controller, Get, HttpException, HttpStatus, Param, ParseUUIDPipe, UseInterceptors } from "@nestjs/common";
-import { BaseService } from "src/server/shared/base.service";
-import { ROUTES } from "../routes.constant";
-import { Album } from "./album.model";
-import { ERROR_MESSAGES } from "src/server/error-messages.constant";
-
+import {
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  ParseUUIDPipe,
+  UseInterceptors,
+} from '@nestjs/common';
+import { BaseService } from 'src/server/shared/base.service';
+import { ROUTES } from '../routes.constant';
+import { Album } from './album.model';
+import { ERROR_MESSAGES } from 'src/server/error-messages.constant';
 
 @Controller(ROUTES.ALBUM)
 @UseInterceptors(ClassSerializerInterceptor)
