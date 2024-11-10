@@ -18,7 +18,7 @@ import { Artist } from './artist.model';
 import { ERROR_MESSAGES } from 'src/server/error-messages.constant';
 import { CreateArtistDto, UpdateArtistDto } from './artist.dto';
 import { ArtistService } from './artist.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller(ROUTES.ARTIST)
 @ApiTags(ROUTES.ARTIST)
@@ -27,11 +27,19 @@ export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 
   @Get()
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: [Artist],
+  })
   getAll(): Artist[] {
     return this.artistService.getAll();
   }
 
   @Get(':id')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: Artist,
+  })
   getOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): Artist {
     const entity = this.artistService.getOne(id);
 
@@ -47,6 +55,10 @@ export class ArtistController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    type: Artist,
+  })
   createOne(@Body() createDto: CreateArtistDto) {
     const newEntity = this.artistService.createOne(createDto);
 
@@ -54,6 +66,10 @@ export class ArtistController {
   }
 
   @Put(':id')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: Artist,
+  })
   updateOne(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateDto: UpdateArtistDto,
@@ -81,6 +97,9 @@ export class ArtistController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+  })
   deleteUser(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     const entity = this.artistService.getOne(id);
 
