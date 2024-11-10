@@ -14,7 +14,8 @@ import {
 import { ROUTES } from '../routes.constant';
 import { FavsService } from './favs.service';
 import { ERROR_MESSAGES } from 'src/server/error-messages.constant';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { FavsResponse } from './favs.type';
 
 @Controller(ROUTES.FAVS)
 @ApiTags(ROUTES.FAVS)
@@ -23,6 +24,10 @@ export class FavsController {
   constructor(private readonly favsService: FavsService) {}
 
   @Get()
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: FavsResponse,
+  })
   getAll() {
     return this.favsService.getAll();
   }

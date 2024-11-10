@@ -19,7 +19,7 @@ import { ERROR_MESSAGES } from 'src/server/error-messages.constant';
 import { TrackService } from './track.service';
 import { Track } from './track.model';
 import { CreateTrackDto, UpdateTrackDto } from './track.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller(ROUTES.TRACK)
 @ApiTags(ROUTES.TRACK)
@@ -28,11 +28,19 @@ export class TrackController {
   constructor(private readonly trackService: TrackService) {}
 
   @Get()
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: [Track],
+  })
   getAll(): Track[] {
     return this.trackService.getAll();
   }
 
   @Get(':id')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: Track,
+  })
   getOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): Track {
     const entity = this.trackService.getOne(id);
 
@@ -48,6 +56,10 @@ export class TrackController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    type: Track,
+  })
   createOne(@Body() createDto: CreateTrackDto) {
     const newEntity = this.trackService.createOne(createDto);
 
@@ -55,6 +67,10 @@ export class TrackController {
   }
 
   @Put(':id')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: Track,
+  })
   updateOne(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateDto: UpdateTrackDto,
@@ -82,6 +98,9 @@ export class TrackController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+  })
   deleteUser(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     const entity = this.trackService.getOne(id);
 
