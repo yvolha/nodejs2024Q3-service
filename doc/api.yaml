@@ -5,15 +5,7 @@ info:
   version: 1.0.0
 
 servers:
-  - url: /api
-  - url: /user
-  - url: /artist
-  - url: /album
-  - url: /track
-  - url: /favs
-  - url: /favs/artist
-  - url: /favs/album
-  - url: /favs/track
+  - url: /
 
 components:
   schemas:

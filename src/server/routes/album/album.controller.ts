@@ -19,7 +19,7 @@ import { ERROR_MESSAGES } from 'src/server/error-messages.constant';
 import { Album } from './album.model';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto, UpdateAlbumDto } from './album.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller(ROUTES.ALBUM)
 @ApiTags(ROUTES.ALBUM)
@@ -28,11 +28,19 @@ export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
   @Get()
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: [Album],
+  })
   getAll(): Album[] {
     return this.albumService.getAll();
   }
 
   @Get(':id')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: Album,
+  })
   getOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): Album {
     const entity = this.albumService.getOne(id);
 
@@ -48,6 +56,10 @@ export class AlbumController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    type: Album,
+  })
   createOne(@Body() createDto: CreateAlbumDto) {
     const newEntity = this.albumService.createOne(createDto);
 
@@ -55,6 +67,10 @@ export class AlbumController {
   }
 
   @Put(':id')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: Album,
+  })
   updateOne(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateDto: UpdateAlbumDto,
@@ -82,6 +98,9 @@ export class AlbumController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+  })
   deleteAlbum(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     const entity = this.albumService.getOne(id);
 
