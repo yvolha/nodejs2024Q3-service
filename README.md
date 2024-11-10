@@ -1,5 +1,7 @@
 # Home Library Service
 
+**To see the endpoints documentation, please run the server and check out http://localhost:4000/api**
+
 ## Prerequisites
 
 - Git - [Download & Install Git](https://git-scm.com/downloads).
