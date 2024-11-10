@@ -6,6 +6,14 @@ info:
 
 servers:
   - url: /api
+  - url: /user
+  - url: /artist
+  - url: /album
+  - url: /track
+  - url: /favs
+  - url: /favs/artist
+  - url: /favs/album
+  - url: /favs/track
 
 components:
   schemas:

@@ -18,8 +18,10 @@ import { Artist } from './artist.model';
 import { ERROR_MESSAGES } from 'src/server/error-messages.constant';
 import { CreateArtistDto, UpdateArtistDto } from './artist.dto';
 import { ArtistService } from './artist.service';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller(ROUTES.ARTIST)
+@ApiTags(ROUTES.ARTIST)
 @UseInterceptors(ClassSerializerInterceptor)
 export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}

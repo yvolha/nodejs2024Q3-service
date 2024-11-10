@@ -14,8 +14,10 @@ import {
 import { ROUTES } from '../routes.constant';
 import { FavsService } from './favs.service';
 import { ERROR_MESSAGES } from 'src/server/error-messages.constant';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller(ROUTES.FAVS)
+@ApiTags(ROUTES.FAVS)
 @UseInterceptors(ClassSerializerInterceptor)
 export class FavsController {
   constructor(private readonly favsService: FavsService) {}

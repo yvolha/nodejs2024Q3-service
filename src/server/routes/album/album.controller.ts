@@ -19,8 +19,10 @@ import { ERROR_MESSAGES } from 'src/server/error-messages.constant';
 import { Album } from './album.model';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto, UpdateAlbumDto } from './album.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller(ROUTES.ALBUM)
+@ApiTags(ROUTES.ALBUM)
 @UseInterceptors(ClassSerializerInterceptor)
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}

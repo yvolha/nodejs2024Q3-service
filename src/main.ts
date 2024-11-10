@@ -21,7 +21,6 @@ async function bootstrap() {
   );
 
   const swaggerDocument = yaml.load(resolve('doc', 'api.yaml'));
-
   const documentFactory = SwaggerModule.createDocument(app, swaggerDocument);
   SwaggerModule.setup('api', app, documentFactory);
 

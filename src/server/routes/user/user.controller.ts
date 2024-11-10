@@ -18,18 +18,28 @@ import { User } from './user.model';
 import { ERROR_MESSAGES } from 'src/server/error-messages.constant';
 import { CreateUserDto, UpdatePasswordDto } from './user.dto';
 import { ROUTES } from '../routes.constant';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller(ROUTES.USER)
+@ApiTags(ROUTES.USER)
 @UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: [User],
+  })
   getAll(): User[] {
     return this.userService.getAll();
   }
 
   @Get(':id')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: User,
+  })
   getOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): User {
     const user = this.userService.getOne(id);
 
@@ -44,6 +54,10 @@ export class UserController {
   }
 
   @Post()
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    type: User,
+  })
   @HttpCode(HttpStatus.CREATED)
   createOne(@Body() createUserDto: CreateUserDto) {
     const newUser = this.userService.createOne(createUserDto);
@@ -52,6 +66,10 @@ export class UserController {
   }
 
   @Put(':id')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: User,
+  })
   updateOne(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updatePasswordDto: UpdatePasswordDto,
@@ -82,6 +100,9 @@ export class UserController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+  })
   deleteUser(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     const user = this.userService.getOne(id);
 

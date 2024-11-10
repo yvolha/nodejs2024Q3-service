@@ -19,8 +19,10 @@ import { ERROR_MESSAGES } from 'src/server/error-messages.constant';
 import { TrackService } from './track.service';
 import { Track } from './track.model';
 import { CreateTrackDto, UpdateTrackDto } from './track.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller(ROUTES.TRACK)
+@ApiTags(ROUTES.TRACK)
 @UseInterceptors(ClassSerializerInterceptor)
 export class TrackController {
   constructor(private readonly trackService: TrackService) {}
