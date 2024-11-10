@@ -1,9 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import * as dotenv from 'dotenv';
+import * as yaml from 'yamljs';
 
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger';
+import { resolve } from 'node:path';
 
 dotenv.config();
 const DEFAULT_PORT = 2000;
@@ -18,14 +20,9 @@ async function bootstrap() {
     }),
   );
 
+  const swaggerDocument = yaml.load(resolve('doc', 'api.yaml'));
 
-  const config = new DocumentBuilder()
-    .setTitle('Home Library Server Documentation')
-    .setDescription('Server endpoints description')
-    .setVersion('1.0')
-    .addTag('home-library-volha')
-    .build();
-  const documentFactory = SwaggerModule.createDocument(app, config);
+  const documentFactory = SwaggerModule.createDocument(app, swaggerDocument);
   SwaggerModule.setup('api', app, documentFactory);
 
 
