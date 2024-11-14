@@ -5,7 +5,7 @@ import { FavsController } from './favs.controller';
 import { FavsService } from './favs.service';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [],
   controllers: [FavsController],
   providers: [FavsService],
 })
