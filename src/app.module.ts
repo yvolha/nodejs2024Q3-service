@@ -7,7 +7,13 @@ import { TrackModule } from './server/routes/track/track.module';
 import { FavsModule } from './server/routes/favs/favs.module';
 
 @Module({
-  imports: [UserModule, ArtistModule, AlbumModule, TrackModule, FavsModule],
+  imports: [
+    UserModule, 
+    ArtistModule,
+    AlbumModule, 
+    TrackModule, 
+    FavsModule,
+  ],
   controllers: [AppController],
   providers: [],
 })
