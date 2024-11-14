@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   app:
-    build:
+    image: app
+    build: ./app
+    
       context: .
     command: ./startup.sh
     depends_on:
