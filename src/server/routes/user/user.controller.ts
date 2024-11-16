@@ -31,8 +31,8 @@ export class UserController {
     status: HttpStatus.OK,
     type: [User],
   })
-  getAll(): User[] {
-    return this.userService.getAll();
+  async getAll(): Promise<User[]> {
+    return await this.userService.getAll();
   }
 
   @Get(':id')
@@ -40,8 +40,10 @@ export class UserController {
     status: HttpStatus.OK,
     type: User,
   })
-  getOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): User {
-    const user = this.userService.getOne(id);
+  async getOne(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ): Promise<User> {
+    const user = await this.userService.getOne(id);
 
     if (!user) {
       throw new HttpException(
@@ -59,8 +61,8 @@ export class UserController {
     type: User,
   })
   @HttpCode(HttpStatus.CREATED)
-  createOne(@Body() createUserDto: CreateUserDto) {
-    const newUser = this.userService.createOne(createUserDto);
+  async createOne(@Body() createUserDto: CreateUserDto): Promise<User> {
+    const newUser = await this.userService.createOne(createUserDto);
 
     return new User(newUser);
   }
@@ -70,11 +72,11 @@ export class UserController {
     status: HttpStatus.OK,
     type: User,
   })
-  updateOne(
+  async updateOne(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updatePasswordDto: UpdatePasswordDto,
-  ) {
-    const user = this.userService.getOne(id);
+  ): Promise<User> {
+    const user = await this.userService.getOne(id);
 
     if (!user) {
       throw new HttpException(
@@ -83,10 +85,7 @@ export class UserController {
       );
     }
 
-    const updatedUser = this.userService.updateOne({
-      id,
-      ...updatePasswordDto,
-    });
+    const updatedUser = await this.userService.updateOne(updatePasswordDto, id);
 
     if (!updatedUser) {
       throw new HttpException(
@@ -103,8 +102,10 @@ export class UserController {
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
   })
-  deleteUser(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    const user = this.userService.getOne(id);
+  async deleteUser(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
+    const user = await this.userService.getOne(id);
 
     if (!user) {
       throw new HttpException(
@@ -113,6 +114,6 @@ export class UserController {
       );
     }
 
-    this.userService.deleteOne(id);
+    await this.userService.deleteOne(id);
   }
 }

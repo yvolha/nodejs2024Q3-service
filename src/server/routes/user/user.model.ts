@@ -1,6 +1,13 @@
 import { ApiProperty, ApiResponseProperty } from '@nestjs/swagger';
-import { Exclude } from 'class-transformer';
-import { IsDate, IsInt, IsString, IsUUID, Min } from 'class-validator';
+import { Exclude, Type } from 'class-transformer';
+import {
+  IsDate,
+  IsInt,
+  IsNumber,
+  IsString,
+  IsUUID,
+  Min,
+} from 'class-validator';
 
 export class User {
   @IsUUID()
@@ -20,13 +27,15 @@ export class User {
   @ApiResponseProperty()
   version: number; // integer number, increments on update
 
-  @IsDate()
+  @Type(() => Number)
+  @IsNumber()
   @ApiResponseProperty()
-  createdAt: number; // timestamp of creation
+  createdAt: Date; // timestamp of creation
 
-  @IsDate()
+  @Type(() => Number)
+  @IsNumber()
   @ApiResponseProperty()
-  updatedAt: number; // timestamp of last update
+  updatedAt: Date; // timestamp of last update
 
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);

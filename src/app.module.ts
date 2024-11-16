@@ -9,10 +9,10 @@ import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
-    UserModule, 
+    UserModule,
     ArtistModule,
-    AlbumModule, 
-    TrackModule, 
+    AlbumModule,
+    TrackModule,
     FavsModule,
     DatabaseModule,
   ],
