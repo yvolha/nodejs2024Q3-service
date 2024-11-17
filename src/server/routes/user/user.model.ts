@@ -1,12 +1,6 @@
 import { ApiProperty, ApiResponseProperty } from '@nestjs/swagger';
 import { Exclude, Type } from 'class-transformer';
-import {
-  IsInt,
-  IsNumber,
-  IsString,
-  IsUUID,
-  Min,
-} from 'class-validator';
+import { IsInt, IsNumber, IsString, IsUUID, Min } from 'class-validator';
 
 export class User {
   @IsUUID()
