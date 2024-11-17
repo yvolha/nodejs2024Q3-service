@@ -62,11 +62,11 @@ export class AlbumController {
     status: HttpStatus.CREATED,
     type: Album,
   })
-  async createOne(@Body() createDto: CreateAlbumDto): Promise<Album> {
-    const newEntity = (await this.albumService.createOne(
+  async createOne(@Body() createDto: CreateAlbumDto) {
+    const newEntity = await this.albumService.createOne(
       createDto,
       ROUTES.ALBUM,
-    )) as Album;
+    );
 
     return newEntity;
   }
@@ -79,8 +79,8 @@ export class AlbumController {
   async updateOne(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateDto: UpdateAlbumDto,
-  ): Promise<Album> {
-    const entity = (await this.albumService.getOne(id, ROUTES.ALBUM)) as Album;
+  ) {
+    const entity = await this.albumService.getOne(id, ROUTES.ALBUM);
 
     if (!entity) {
       throw new HttpException(
@@ -89,11 +89,11 @@ export class AlbumController {
       );
     }
 
-    const updatedEntity = (await this.albumService.updateOne(
+    const updatedEntity = await this.albumService.updateOne(
       id,
       updateDto,
       ROUTES.ALBUM,
-    )) as Album;
+    );
 
     if (!updatedEntity) {
       throw new HttpException(

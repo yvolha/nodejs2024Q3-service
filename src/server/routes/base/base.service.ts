@@ -1,10 +1,13 @@
-import { Album, Artist, Track } from '@prisma/client';
+
 
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { CreateAlbumDto, UpdateAlbumDto } from '../album/album.dto';
 import { CreateArtistDto, UpdateArtistDto } from '../artist/artist.dto';
 import { CreateTrackDto, UpdateTrackDto } from '../track/track.dto';
+import { Artist } from '../artist/artist.model';
+import { Album } from '../album/album.model';
+import { Track } from '../track/track.model';
 
 @Injectable()
 export class BaseService {

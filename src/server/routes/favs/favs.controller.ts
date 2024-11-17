@@ -45,6 +45,11 @@ export class FavsController {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
+
+    throw new HttpException(
+      "",
+      HttpStatus.UNPROCESSABLE_ENTITY,
+    );
   }
 
   @Delete(`${ROUTES.TRACK}/:id`)
@@ -78,6 +83,11 @@ export class FavsController {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
+
+    throw new HttpException(
+      "",
+      HttpStatus.UNPROCESSABLE_ENTITY,
+    );
   }
 
   @Delete(`${ROUTES.ALBUM}/:id`)
@@ -111,6 +121,11 @@ export class FavsController {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
+
+    throw new HttpException(
+      "",
+      HttpStatus.UNPROCESSABLE_ENTITY,
+    );
   }
 
   @Delete(`${ROUTES.ARTIST}/:id`)
