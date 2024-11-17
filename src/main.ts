@@ -26,6 +26,7 @@ async function bootstrap() {
 
   await app.listen(SERVER_PORT, () => {
     console.log(`Server is running on http://localhost:${SERVER_PORT}`);
-  });
+  })
+  .catch((err) => console.log(err));
 }
-bootstrap();
+bootstrap().catch((err) => console.log(err));
