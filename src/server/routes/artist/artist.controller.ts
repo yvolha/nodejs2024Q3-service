@@ -32,7 +32,7 @@ export class ArtistController {
     type: [Artist],
   })
   async getAll(): Promise<Artist[]> {
-    return await this.artistService.getAll(ROUTES.ARTIST) as Artist[];
+    return (await this.artistService.getAll(ROUTES.ARTIST)) as Artist[];
   }
 
   @Get(':id')
@@ -40,8 +40,13 @@ export class ArtistController {
     status: HttpStatus.OK,
     type: Artist,
   })
-  async getOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): Promise<Artist> {
-    const entity = await this.artistService.getOne(id, ROUTES.ARTIST) as Artist;
+  async getOne(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ): Promise<Artist> {
+    const entity = (await this.artistService.getOne(
+      id,
+      ROUTES.ARTIST,
+    )) as Artist;
 
     if (!entity) {
       throw new HttpException(
@@ -60,7 +65,10 @@ export class ArtistController {
     type: Artist,
   })
   async createOne(@Body() createDto: CreateArtistDto) {
-    const newEntity = await this.artistService.createOne(createDto, ROUTES.ARTIST);
+    const newEntity = await this.artistService.createOne(
+      createDto,
+      ROUTES.ARTIST,
+    );
 
     return newEntity;
   }
@@ -83,7 +91,11 @@ export class ArtistController {
       );
     }
 
-    const updatedEntity = await this.artistService.updateOne(id, updateDto, ROUTES.ARTIST);
+    const updatedEntity = await this.artistService.updateOne(
+      id,
+      updateDto,
+      ROUTES.ARTIST,
+    );
 
     if (!updatedEntity) {
       throw new HttpException(
@@ -100,7 +112,9 @@ export class ArtistController {
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
   })
-  async deleteUser(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async deleteUser(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
     const entity = await this.artistService.getOne(id, ROUTES.ARTIST);
 
     if (!entity) {

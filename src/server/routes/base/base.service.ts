@@ -6,7 +6,6 @@ import { CreateAlbumDto, UpdateAlbumDto } from '../album/album.dto';
 import { CreateArtistDto, UpdateArtistDto } from '../artist/artist.dto';
 import { CreateTrackDto, UpdateTrackDto } from '../track/track.dto';
 
-
 @Injectable()
 export class BaseService {
   constructor(private databaseService: DatabaseService) {}

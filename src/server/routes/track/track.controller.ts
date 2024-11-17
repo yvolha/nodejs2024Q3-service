@@ -33,7 +33,7 @@ export class TrackController {
     type: [Track],
   })
   async getAll(): Promise<Track[]> {
-    return await this.trackService.getAll(ROUTES.TRACK) as Track[];
+    return (await this.trackService.getAll(ROUTES.TRACK)) as Track[];
   }
 
   @Get(':id')
@@ -41,8 +41,10 @@ export class TrackController {
     status: HttpStatus.OK,
     type: Track,
   })
- async getOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): Promise<Track> {
-    const entity = await this.trackService.getOne(id, ROUTES.TRACK) as Track;
+  async getOne(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ): Promise<Track> {
+    const entity = (await this.trackService.getOne(id, ROUTES.TRACK)) as Track;
 
     if (!entity) {
       throw new HttpException(
@@ -61,7 +63,10 @@ export class TrackController {
     type: Track,
   })
   async createOne(@Body() createDto: CreateTrackDto) {
-    const newEntity = await this.trackService.createOne(createDto, ROUTES.TRACK);
+    const newEntity = await this.trackService.createOne(
+      createDto,
+      ROUTES.TRACK,
+    );
 
     return newEntity;
   }
@@ -71,7 +76,7 @@ export class TrackController {
     status: HttpStatus.OK,
     type: Track,
   })
- async updateOne(
+  async updateOne(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateDto: UpdateTrackDto,
   ) {
@@ -84,7 +89,11 @@ export class TrackController {
       );
     }
 
-    const updatedEntity = await this.trackService.updateOne(id, updateDto, ROUTES.TRACK);
+    const updatedEntity = await this.trackService.updateOne(
+      id,
+      updateDto,
+      ROUTES.TRACK,
+    );
 
     if (!updatedEntity) {
       throw new HttpException(
@@ -101,7 +110,9 @@ export class TrackController {
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
   })
-  async deleteUser(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async deleteUser(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
     const entity = await this.trackService.getOne(id, ROUTES.TRACK);
 
     if (!entity) {
@@ -111,6 +122,6 @@ export class TrackController {
       );
     }
 
-   await this.trackService.deleteOne(id, ROUTES.TRACK);
+    await this.trackService.deleteOne(id, ROUTES.TRACK);
   }
 }

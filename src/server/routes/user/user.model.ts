@@ -1,7 +1,6 @@
 import { ApiProperty, ApiResponseProperty } from '@nestjs/swagger';
 import { Exclude, Type } from 'class-transformer';
 import {
-  IsDate,
   IsInt,
   IsNumber,
   IsString,
