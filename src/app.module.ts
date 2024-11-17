@@ -6,6 +6,7 @@ import { AlbumModule } from './server/routes/album/album.module';
 import { TrackModule } from './server/routes/track/track.module';
 import { FavsModule } from './server/routes/favs/favs.module';
 import { DatabaseModule } from './database/database.module';
+import { BaseModule } from './server/routes/base/base.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { DatabaseModule } from './database/database.module';
     TrackModule,
     FavsModule,
     DatabaseModule,
+    BaseModule,
   ],
   controllers: [AppController],
   providers: [],

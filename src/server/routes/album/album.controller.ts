@@ -32,8 +32,8 @@ export class AlbumController {
     status: HttpStatus.OK,
     type: [Album],
   })
-  getAll(): Album[] {
-    return this.albumService.getAll();
+  async getAll(): Promise<Album[]> {
+    return await this.albumService.getAll(ROUTES.ALBUM) as Album[];
   }
 
   @Get(':id')
@@ -41,8 +41,8 @@ export class AlbumController {
     status: HttpStatus.OK,
     type: Album,
   })
-  getOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): Album {
-    const entity = this.albumService.getOne(id);
+  async getOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): Promise<Album> {
+    const entity = await this.albumService.getOne(id, ROUTES.ALBUM) as Album;
 
     if (!entity) {
       throw new HttpException(
@@ -60,8 +60,8 @@ export class AlbumController {
     status: HttpStatus.CREATED,
     type: Album,
   })
-  createOne(@Body() createDto: CreateAlbumDto) {
-    const newEntity = this.albumService.createOne(createDto);
+  async createOne(@Body() createDto: CreateAlbumDto): Promise<Album> {
+    const newEntity = await this.albumService.createOne(createDto, ROUTES.ALBUM) as Album;
 
     return newEntity;
   }
@@ -71,11 +71,11 @@ export class AlbumController {
     status: HttpStatus.OK,
     type: Album,
   })
-  updateOne(
+  async updateOne(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateDto: UpdateAlbumDto,
-  ) {
-    const entity = this.albumService.getOne(id);
+  ): Promise<Album> {
+    const entity = await this.albumService.getOne(id, ROUTES.ALBUM) as Album;
 
     if (!entity) {
       throw new HttpException(
@@ -84,7 +84,7 @@ export class AlbumController {
       );
     }
 
-    const updatedEntity = this.albumService.updateOne(id, updateDto);
+    const updatedEntity = await this.albumService.updateOne(id, updateDto, ROUTES.ALBUM) as Album;
 
     if (!updatedEntity) {
       throw new HttpException(
@@ -101,8 +101,8 @@ export class AlbumController {
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
   })
-  deleteAlbum(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    const entity = this.albumService.getOne(id);
+  async deleteAlbum(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    const entity = await this.albumService.getOne(id, ROUTES.ALBUM);
 
     if (!entity) {
       throw new HttpException(
@@ -111,6 +111,6 @@ export class AlbumController {
       );
     }
 
-    this.albumService.deleteOne(id);
+    await this.albumService.deleteOne(id, ROUTES.ALBUM);
   }
 }

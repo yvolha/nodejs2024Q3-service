@@ -31,8 +31,8 @@ export class ArtistController {
     status: HttpStatus.OK,
     type: [Artist],
   })
-  getAll(): Artist[] {
-    return this.artistService.getAll();
+  async getAll(): Promise<Artist[]> {
+    return await this.artistService.getAll(ROUTES.ARTIST) as Artist[];
   }
 
   @Get(':id')
@@ -40,8 +40,8 @@ export class ArtistController {
     status: HttpStatus.OK,
     type: Artist,
   })
-  getOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): Artist {
-    const entity = this.artistService.getOne(id);
+  async getOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): Promise<Artist> {
+    const entity = await this.artistService.getOne(id, ROUTES.ARTIST) as Artist;
 
     if (!entity) {
       throw new HttpException(
@@ -59,8 +59,8 @@ export class ArtistController {
     status: HttpStatus.CREATED,
     type: Artist,
   })
-  createOne(@Body() createDto: CreateArtistDto) {
-    const newEntity = this.artistService.createOne(createDto);
+  async createOne(@Body() createDto: CreateArtistDto) {
+    const newEntity = await this.artistService.createOne(createDto, ROUTES.ARTIST);
 
     return newEntity;
   }
@@ -70,11 +70,11 @@ export class ArtistController {
     status: HttpStatus.OK,
     type: Artist,
   })
-  updateOne(
+  async updateOne(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateDto: UpdateArtistDto,
   ) {
-    const entity = this.artistService.getOne(id);
+    const entity = await this.artistService.getOne(id, ROUTES.ARTIST);
 
     if (!entity) {
       throw new HttpException(
@@ -83,7 +83,7 @@ export class ArtistController {
       );
     }
 
-    const updatedEntity = this.artistService.updateOne(id, updateDto);
+    const updatedEntity = await this.artistService.updateOne(id, updateDto, ROUTES.ARTIST);
 
     if (!updatedEntity) {
       throw new HttpException(
@@ -100,8 +100,8 @@ export class ArtistController {
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
   })
-  deleteUser(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    const entity = this.artistService.getOne(id);
+  async deleteUser(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    const entity = await this.artistService.getOne(id, ROUTES.ARTIST);
 
     if (!entity) {
       throw new HttpException(
@@ -110,6 +110,6 @@ export class ArtistController {
       );
     }
 
-    this.artistService.deleteOne(id);
+    await this.artistService.deleteOne(id, ROUTES.ARTIST);
   }
 }

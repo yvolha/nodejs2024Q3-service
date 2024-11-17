@@ -32,8 +32,8 @@ export class TrackController {
     status: HttpStatus.OK,
     type: [Track],
   })
-  getAll(): Track[] {
-    return this.trackService.getAll();
+  async getAll(): Promise<Track[]> {
+    return await this.trackService.getAll(ROUTES.TRACK) as Track[];
   }
 
   @Get(':id')
@@ -41,8 +41,8 @@ export class TrackController {
     status: HttpStatus.OK,
     type: Track,
   })
-  getOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): Track {
-    const entity = this.trackService.getOne(id);
+ async getOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): Promise<Track> {
+    const entity = await this.trackService.getOne(id, ROUTES.TRACK) as Track;
 
     if (!entity) {
       throw new HttpException(
@@ -60,8 +60,8 @@ export class TrackController {
     status: HttpStatus.CREATED,
     type: Track,
   })
-  createOne(@Body() createDto: CreateTrackDto) {
-    const newEntity = this.trackService.createOne(createDto);
+  async createOne(@Body() createDto: CreateTrackDto) {
+    const newEntity = await this.trackService.createOne(createDto, ROUTES.TRACK);
 
     return newEntity;
   }
@@ -71,11 +71,11 @@ export class TrackController {
     status: HttpStatus.OK,
     type: Track,
   })
-  updateOne(
+ async updateOne(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateDto: UpdateTrackDto,
   ) {
-    const entity = this.trackService.getOne(id);
+    const entity = await this.trackService.getOne(id, ROUTES.TRACK);
 
     if (!entity) {
       throw new HttpException(
@@ -84,7 +84,7 @@ export class TrackController {
       );
     }
 
-    const updatedEntity = this.trackService.updateOne(id, updateDto);
+    const updatedEntity = await this.trackService.updateOne(id, updateDto, ROUTES.TRACK);
 
     if (!updatedEntity) {
       throw new HttpException(
@@ -101,8 +101,8 @@ export class TrackController {
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
   })
-  deleteUser(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    const entity = this.trackService.getOne(id);
+  async deleteUser(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    const entity = await this.trackService.getOne(id, ROUTES.TRACK);
 
     if (!entity) {
       throw new HttpException(
@@ -111,6 +111,6 @@ export class TrackController {
       );
     }
 
-    this.trackService.deleteOne(id);
+   await this.trackService.deleteOne(id, ROUTES.TRACK);
   }
 }
