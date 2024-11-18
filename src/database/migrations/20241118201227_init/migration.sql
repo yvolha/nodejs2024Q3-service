@@ -16,7 +16,7 @@ CREATE TABLE "Album" (
     "name" TEXT NOT NULL,
     "year" INTEGER NOT NULL,
     "artistId" TEXT,
-    "favsId" TEXT NOT NULL,
+    "favsId" TEXT,
 
     CONSTRAINT "Album_pkey" PRIMARY KEY ("id")
 );
@@ -57,19 +57,10 @@ CREATE UNIQUE INDEX "User_id_key" ON "User"("id");
 CREATE UNIQUE INDEX "Album_id_key" ON "Album"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Album_artistId_key" ON "Album"("artistId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Artist_id_key" ON "Artist"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Track_id_key" ON "Track"("id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Track_artistId_key" ON "Track"("artistId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Track_albumId_key" ON "Track"("albumId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Favs_id_key" ON "Favs"("id");
@@ -78,7 +69,7 @@ CREATE UNIQUE INDEX "Favs_id_key" ON "Favs"("id");
 ALTER TABLE "Album" ADD CONSTRAINT "Album_artistId_fkey" FOREIGN KEY ("artistId") REFERENCES "Artist"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Album" ADD CONSTRAINT "Album_favsId_fkey" FOREIGN KEY ("favsId") REFERENCES "Favs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Album" ADD CONSTRAINT "Album_favsId_fkey" FOREIGN KEY ("favsId") REFERENCES "Favs"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Artist" ADD CONSTRAINT "Artist_favsId_fkey" FOREIGN KEY ("favsId") REFERENCES "Favs"("id") ON DELETE SET NULL ON UPDATE CASCADE;

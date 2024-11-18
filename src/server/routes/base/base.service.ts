@@ -29,6 +29,7 @@ export class BaseService {
     data: CreateAlbumDto | CreateArtistDto | CreateTrackDto,
     field: string,
   ): Promise<Artist | Album | Track> {
+    console.log('!!!!!!!!!!!!!!', data)
     return await this.databaseService[field].create({
       data,
     });
