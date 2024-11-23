@@ -22,6 +22,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "prisma:start": "npx prisma migrate dev --name init && npm run build && npm run start:dev",
     "docker": "docker compose up --build",
+    "docker:recreate": "docker compose up --build --force-recreate -d",
     "start:migrate": "prisma migrate deploy && npm run start:prod"
   },
   "dependencies": {
