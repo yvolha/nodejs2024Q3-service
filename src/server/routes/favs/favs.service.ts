@@ -76,18 +76,23 @@ export class FavsService {
   }
 
   async addToFavs(id: string, field: string) {
-    return await this.databaseService[field].update({
-      where: {
-        id: id,
-      },
-      data: {
-        favoritesId: NIL,
-      },
-    });
+    try {
+      return await this.databaseService[field]?.update({
+        where: {
+          id: id,
+        },
+        data: {
+          favoritesId: NIL,
+        },
+      });
+    } catch (e) {
+      console.log(e)
+    }
+    
   }
 
   async deleteFromFavs(id: string, field: string) {
-    return await this.databaseService[field].update({
+    return await this.databaseService[field]?.update({
       where: {
         id: id,
       },

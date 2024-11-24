@@ -37,7 +37,7 @@ export class BaseService {
     data: UpdateAlbumDto | UpdateArtistDto | UpdateTrackDto,
     field: string,
   ): Promise<Artist | Album | Track> {
-    return await this.databaseService[field].update({
+    return await this.databaseService[field]?.update({
       where: {
         id,
       },

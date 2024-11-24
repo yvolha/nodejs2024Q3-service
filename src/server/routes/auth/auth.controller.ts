@@ -1,18 +1,21 @@
 import {
   Body,
   ClassSerializerInterceptor,
+  Controller,
   HttpCode,
   HttpStatus,
   Post,
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from '../user/user.model';
 import { AuthDto } from './auth.dto';
+import { ROUTES } from '../routes.constant';
 
 
-
+@Controller(ROUTES.AUTH)
+@ApiTags(ROUTES.AUTH)
 @UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -27,6 +30,7 @@ export class AuthController {
       createDto,
     );
 
+    console.log(newEntity);
     return newEntity;
   }
 }
