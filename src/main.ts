@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import * as dotenv from 'dotenv';
 import * as yaml from 'yamljs';
-import { JwtService } from '@nestjs/jwt'
 
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
