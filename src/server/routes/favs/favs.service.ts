@@ -1,67 +1,99 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
-import { ROUTES } from '../routes.constant';
-import { Track } from '../track/track.model';
-import { Artist } from '../artist/artist.model';
-import { Album } from '../album/album.model';
 import { FavsResponse } from './favs.type';
+import { NIL } from 'uuid';
 
 @Injectable()
 export class FavsService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  getAll(): FavsResponse {
-    return {
-      artists: this.databaseService.artist.filter((item) =>
-        this.databaseService.favs.artists.includes(item.id),
-      ),
-      albums: this.databaseService.album.filter((item) =>
-        this.databaseService.favs.albums.includes(item.id),
-      ),
-      tracks: this.databaseService.track.filter((item) =>
-        this.databaseService.favs.tracks.includes(item.id),
-      ),
-    };
-  }
+  async getAll(): Promise<FavsResponse> {
+    const favs = await this.databaseService.favs.findUnique({
+      where: { id: NIL },
+      select: {
+        tracks: {
+          select: {
+            id: true,
+            name: true,
+            artistId: true,
+            albumId: true,
+            duration: true,
+          },
+        },
+        artists: {
+          select: {
+            id: true,
+            name: true,
+            grammy: true,
+          },
+        },
+        albums: {
+          select: {
+            id: true,
+            name: true,
+            year: true,
+            artistId: true,
+          },
+        },
+      },
+    });
 
-  getEntity(route: string, id: string) {
-    return this.databaseService[route].find((entity) => entity.id === id);
-  }
-
-  addEntityToFavs(
-    route: ROUTES.ALBUM | ROUTES.ARTIST | ROUTES.TRACK,
-    entity: Album | Artist | Track,
-  ) {
-    const subroute = this.getFavsSubrouteByRequestRoute(route);
-    this.databaseService.favs[subroute].push(entity.id);
-  }
-
-  deleteEntity(
-    route: ROUTES.ALBUM | ROUTES.ARTIST | ROUTES.TRACK,
-    entityId: string,
-  ) {
-    const subroute = this.getFavsSubrouteByRequestRoute(route);
-    const isEntityInFavs = this.databaseService.favs[subroute].find(
-      (favEntity) => favEntity === entityId,
-    );
-
-    if (!isEntityInFavs) {
-      return null;
+    if (!favs) {
+      return await this.databaseService.favs.create({
+        data: {
+          id: NIL,
+        },
+        select: {
+          tracks: {
+            select: {
+              id: true,
+              name: true,
+              artistId: true,
+              albumId: true,
+              duration: true,
+            },
+          },
+          artists: {
+            select: {
+              id: true,
+              name: true,
+              grammy: true,
+            },
+          },
+          albums: {
+            select: {
+              id: true,
+              name: true,
+              year: true,
+              artistId: true,
+            },
+          },
+        },
+      });
     }
 
-    this.databaseService.favs[subroute] = this.databaseService.favs[
-      subroute
-    ].filter((id) => id !== entityId);
-    return {};
+    return favs;
   }
 
-  getFavsSubrouteByRequestRoute(
-    route: ROUTES.ALBUM | ROUTES.ARTIST | ROUTES.TRACK,
-  ) {
-    return route === 'track'
-      ? 'tracks'
-      : route === 'artist'
-      ? 'artists'
-      : 'albums';
+  async addToFavs(id: string, field: string) {
+    return await this.databaseService[field].update({
+      where: {
+        id: id,
+      },
+      data: {
+        favoritesId: NIL,
+      },
+    });
+  }
+
+  async deleteFromFavs(id: string, field: string) {
+    return await this.databaseService[field].update({
+      where: {
+        id: id,
+      },
+      data: {
+        favoritesId: null,
+      },
+    });
   }
 }

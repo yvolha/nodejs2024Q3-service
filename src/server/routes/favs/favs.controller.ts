@@ -28,14 +28,16 @@ export class FavsController {
     status: HttpStatus.OK,
     type: FavsResponse,
   })
-  getAll() {
-    return this.favsService.getAll();
+  async getAll() {
+    return await this.favsService.getAll();
   }
 
   @Post(`${ROUTES.TRACK}/:id`)
   @HttpCode(HttpStatus.CREATED)
-  createTrack(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    const track = this.favsService.getEntity(ROUTES.TRACK, id);
+  async createTrack(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
+    const track = await this.favsService.addToFavs(id, ROUTES.TRACK);
 
     if (!track) {
       throw new HttpException(
@@ -43,14 +45,17 @@ export class FavsController {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
-
-    this.favsService.addEntityToFavs(ROUTES.TRACK, track);
   }
 
   @Delete(`${ROUTES.TRACK}/:id`)
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteTrack(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    const removedTrack = this.favsService.deleteEntity(ROUTES.TRACK, id);
+  async deleteTrack(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
+    const removedTrack = await this.favsService.deleteFromFavs(
+      id,
+      ROUTES.TRACK,
+    );
 
     if (!removedTrack) {
       throw new HttpException(
@@ -62,8 +67,10 @@ export class FavsController {
 
   @Post(`${ROUTES.ALBUM}/:id`)
   @HttpCode(HttpStatus.CREATED)
-  createAlbum(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    const album = this.favsService.getEntity(ROUTES.ALBUM, id);
+  async createAlbum(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
+    const album = await this.favsService.addToFavs(id, ROUTES.ALBUM);
 
     if (!album) {
       throw new HttpException(
@@ -71,14 +78,17 @@ export class FavsController {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
-
-    this.favsService.addEntityToFavs(ROUTES.ALBUM, album);
   }
 
   @Delete(`${ROUTES.ALBUM}/:id`)
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteAlbum(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    const removedAlbum = this.favsService.deleteEntity(ROUTES.ALBUM, id);
+  async deleteAlbum(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
+    const removedAlbum = await this.favsService.deleteFromFavs(
+      id,
+      ROUTES.ALBUM,
+    );
 
     if (!removedAlbum) {
       throw new HttpException(
@@ -90,8 +100,10 @@ export class FavsController {
 
   @Post(`${ROUTES.ARTIST}/:id`)
   @HttpCode(HttpStatus.CREATED)
-  createArtist(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    const artist = this.favsService.getEntity(ROUTES.ARTIST, id);
+  async createArtist(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
+    const artist = await this.favsService.addToFavs(id, ROUTES.ARTIST);
 
     if (!artist) {
       throw new HttpException(
@@ -99,14 +111,17 @@ export class FavsController {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
-
-    this.favsService.addEntityToFavs(ROUTES.ARTIST, artist);
   }
 
   @Delete(`${ROUTES.ARTIST}/:id`)
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteArtist(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    const removedArtist = this.favsService.deleteEntity(ROUTES.ARTIST, id);
+  async deleteArtist(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
+    const removedArtist = await this.favsService.deleteFromFavs(
+      id,
+      ROUTES.ARTIST,
+    );
 
     if (!removedArtist) {
       throw new HttpException(
