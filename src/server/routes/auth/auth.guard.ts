@@ -1,7 +1,12 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
-import { Reflector } from "@nestjs/core";
-import { JwtService } from "@nestjs/jwt";
-import { IS_PUBLIC_KEY } from "./auth.decorator";
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
+import { JwtService } from '@nestjs/jwt';
+import { IS_PUBLIC_KEY } from './auth.decorator';
 import { Request } from 'express';
 import * as dotenv from 'dotenv';
 
@@ -11,7 +16,9 @@ const JWT_SECRET_REFRESH_KEY = process.env.JWT_SECRET_REFRESH_KEY;
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService, private reflector: Reflector
+  constructor(
+    private jwtService: JwtService,
+    private reflector: Reflector,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -20,9 +27,7 @@ export class AuthGuard implements CanActivate {
       context.getClass(),
     ]);
 
- 
     if (isPublic) {
-
       return true;
     }
 
@@ -36,13 +41,11 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
     try {
-
       const secret = isRefreshEndpoint
         ? JWT_SECRET_REFRESH_KEY
         : JWT_SECRET_KEY;
 
-      const payload = await this.jwtService.verifyAsync(token, { secret });
-
+      await this.jwtService.verifyAsync(token, { secret });
     } catch {
       throw new UnauthorizedException();
     }

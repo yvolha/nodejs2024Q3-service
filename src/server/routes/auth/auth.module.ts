@@ -14,11 +14,11 @@ const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 @Module({
   imports: [
     JwtModule.register({
-    global: true,
-    secret: JWT_SECRET_KEY,
-    signOptions: { expiresIn: TOKEN_EXPIRE_TIME },
-  }),
-],
+      global: true,
+      secret: JWT_SECRET_KEY,
+      signOptions: { expiresIn: TOKEN_EXPIRE_TIME },
+    }),
+  ],
   controllers: [AuthController],
   providers: [
     AuthService,

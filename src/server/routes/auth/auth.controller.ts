@@ -17,7 +17,6 @@ import { LoginResponse } from './auth.type';
 import { ERROR_MESSAGES } from 'src/server/error-messages.constant';
 import { Public } from './auth.decorator';
 
-
 @Controller(ROUTES.AUTH)
 @ApiTags(ROUTES.AUTH)
 @UseInterceptors(ClassSerializerInterceptor)

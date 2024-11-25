@@ -47,7 +47,6 @@ export class BaseService {
     } catch (e) {
       console.log(e);
     }
-    
   }
 
   async deleteOne(id: string, field: string) {

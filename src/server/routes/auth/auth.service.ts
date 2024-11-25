@@ -43,15 +43,15 @@ export class AuthService {
 
       const isPasswordMatching = await bcrypt.compare(password, user.password);
 
-        if (!isPasswordMatching){
-          return;
-        }
+      if (!isPasswordMatching) {
+        return;
+      }
 
-        const payload = { userId : user.id, login: user.login };
+      const payload = { userId: user.id, login: user.login };
 
-        return {
-          accessToken: await this.jwtService.signAsync(payload),
-        };
+      return {
+        accessToken: await this.jwtService.signAsync(payload),
+      };
     } catch (e) {
       console.log(e);
     }
