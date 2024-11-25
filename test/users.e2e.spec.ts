@@ -24,6 +24,7 @@ describe('Users (e2e)', () => {
   beforeAll(async () => {
     if (shouldAuthorizationBeTested) {
       const result = await getTokenAndUserId(unauthorizedRequest);
+      console.log('result', result)
       commonHeaders['Authorization'] = result.token;
       mockUserId = result.mockUserId;
     }

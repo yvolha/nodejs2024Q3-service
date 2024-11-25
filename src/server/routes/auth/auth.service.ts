@@ -3,7 +3,7 @@ import { DatabaseService } from 'src/database/database.service';
 import { AuthDto } from './auth.dto';
 import { User } from '@prisma/client';
 import * as dotenv from 'dotenv';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { LoginResponse } from './auth.type';
 
@@ -19,13 +19,7 @@ export class AuthService {
   ) {}
 
   async createOne({ login, password }: AuthDto): Promise<User> {
-    let hashedPassword = '';
-
-    bcrypt.hash(password, SALT_ROUNDS).then(function (hash) {
-      hashedPassword = hash;
-    });
-
-    console.log(hashedPassword, 'hashedPassword');
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
     return await this.databaseService.user.create({
       data: {
@@ -43,21 +37,18 @@ export class AuthService {
         },
       });
 
-      console.log('user', user);
-
       if (!user) {
         return;
       }
 
       const isPasswordMatching = await bcrypt.compare(password, user.password);
-        console.log(isPasswordMatching);
 
         if (!isPasswordMatching){
           return;
         }
 
         const payload = { userId : user.id, login: user.login };
-        
+
         return {
           accessToken: await this.jwtService.signAsync(payload),
         };

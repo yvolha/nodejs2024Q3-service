@@ -15,6 +15,8 @@ import { AuthDto } from './auth.dto';
 import { ROUTES } from '../routes.constant';
 import { LoginResponse } from './auth.type';
 import { ERROR_MESSAGES } from 'src/server/error-messages.constant';
+import { Public } from './auth.decorator';
+
 
 @Controller(ROUTES.AUTH)
 @ApiTags(ROUTES.AUTH)
@@ -22,6 +24,7 @@ import { ERROR_MESSAGES } from 'src/server/error-messages.constant';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @Post('signup')
   @HttpCode(HttpStatus.CREATED)
   @ApiResponse({
@@ -34,6 +37,7 @@ export class AuthController {
     return newEntity;
   }
 
+  @Public()
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
@@ -47,7 +51,6 @@ export class AuthController {
       throw new HttpException(ERROR_MESSAGES.AUTH_FAILED, HttpStatus.FORBIDDEN);
     }
 
-    console.log(authTokens);
     return authTokens;
   }
 }
