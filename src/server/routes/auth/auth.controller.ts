@@ -16,7 +16,6 @@ import { ROUTES } from '../routes.constant';
 import { LoginResponseType } from './auth.type';
 import { ERROR_MESSAGES } from 'src/server/error-messages.constant';
 
-
 @Controller(ROUTES.AUTH)
 @ApiTags(ROUTES.AUTH)
 @UseInterceptors(ClassSerializerInterceptor)
@@ -30,9 +29,7 @@ export class AuthController {
     type: User,
   })
   async createOne(@Body() createDto: AuthDto) {
-    const newEntity = await this.authService.createOne(
-      createDto,
-    );
+    const newEntity = await this.authService.createOne(createDto);
 
     return newEntity;
   }
@@ -44,15 +41,10 @@ export class AuthController {
     type: LoginResponseType,
   })
   async logIn(@Body() loginDto: AuthDto) {
-    const authTokens = await this.authService.logIn(
-      loginDto,
-    );
+    const authTokens = await this.authService.logIn(loginDto);
 
     if (!authTokens) {
-      throw new HttpException(
-        ERROR_MESSAGES.AUTH_FAILED,
-        HttpStatus.FORBIDDEN,
-      );
+      throw new HttpException(ERROR_MESSAGES.AUTH_FAILED, HttpStatus.FORBIDDEN);
     }
 
     console.log(authTokens);

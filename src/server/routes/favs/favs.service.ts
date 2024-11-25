@@ -86,9 +86,8 @@ export class FavsService {
         },
       });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-    
   }
 
   async deleteFromFavs(id: string, field: string) {
