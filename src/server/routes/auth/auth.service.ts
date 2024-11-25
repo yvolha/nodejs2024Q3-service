@@ -30,4 +30,20 @@ export class AuthService {
     });
   }
 
+  async logIn({login, password}: AuthDto): Promise<User> {
+    let hashedPassword = '';
+
+    bcrypt.hash(password, SALT_ROUNDS).then(function(hash) {
+      hashedPassword = hash;
+  });
+
+  console.log(hashedPassword, 'hashedPassword')
+
+    return await this.databaseService.user.create({
+      data: {
+        login,
+        password: hashedPassword,
+      },
+    });
+  }
 }
