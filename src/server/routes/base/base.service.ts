@@ -37,12 +37,17 @@ export class BaseService {
     data: UpdateAlbumDto | UpdateArtistDto | UpdateTrackDto,
     field: string,
   ): Promise<Artist | Album | Track> {
-    return await this.databaseService[field]?.update({
-      where: {
-        id,
-      },
-      data,
-    });
+    try {
+      return await this.databaseService[field]?.update({
+        where: {
+          id,
+        },
+        data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    
   }
 
   async deleteOne(id: string, field: string) {

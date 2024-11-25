@@ -7,6 +7,7 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+const JWT_SECRET_REFRESH_KEY = process.env.JWT_SECRET_REFRESH_KEY;
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -26,19 +27,22 @@ export class AuthGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest();
-    const token = this.extractTokenFromHeader(request);
+    const isRefreshEndpoint = request.url.includes('/auth/refresh');
+    const token = isRefreshEndpoint
+      ? request.body?.refreshToken
+      : this.extractTokenFromHeader(request);
 
     if (!token) {
       throw new UnauthorizedException();
     }
     try {
 
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: JWT_SECRET_KEY,
-      });
-console.log(payload)
+      const secret = isRefreshEndpoint
+        ? JWT_SECRET_REFRESH_KEY
+        : JWT_SECRET_KEY;
 
-      request.headers['Authorization'] = payload;
+      const payload = await this.jwtService.verifyAsync(token, { secret });
+
     } catch {
       throw new UnauthorizedException();
     }
