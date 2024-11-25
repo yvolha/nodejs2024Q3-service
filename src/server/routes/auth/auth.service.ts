@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { AuthDto } from './auth.dto';
-import { User } from '@prisma/client';
 import * as dotenv from 'dotenv';
-import * as bcrypt from 'bcrypt';
+import { hash, compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { LoginResponse } from './auth.type';
+import { User } from '../user/user.model';
 
 dotenv.config();
 
@@ -19,7 +19,7 @@ export class AuthService {
   ) {}
 
   async createOne({ login, password }: AuthDto): Promise<User> {
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    const hashedPassword = await hash(password, SALT_ROUNDS);
 
     return await this.databaseService.user.create({
       data: {
@@ -41,7 +41,7 @@ export class AuthService {
         return;
       }
 
-      const isPasswordMatching = await bcrypt.compare(password, user.password);
+      const isPasswordMatching = await compare(password, user.password);
 
       if (!isPasswordMatching) {
         return;
