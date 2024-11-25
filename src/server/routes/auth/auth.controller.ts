@@ -13,7 +13,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from '../user/user.model';
 import { AuthDto } from './auth.dto';
 import { ROUTES } from '../routes.constant';
-import { LoginResponseType } from './auth.type';
+import { LoginResponse } from './auth.type';
 import { ERROR_MESSAGES } from 'src/server/error-messages.constant';
 
 @Controller(ROUTES.AUTH)
@@ -38,7 +38,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
-    type: LoginResponseType,
+    type: LoginResponse,
   })
   async logIn(@Body() loginDto: AuthDto) {
     const authTokens = await this.authService.logIn(loginDto);

@@ -4,6 +4,8 @@ import { AuthDto } from './auth.dto';
 import { User } from '@prisma/client';
 import * as dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { LoginResponse } from './auth.type';
 
 dotenv.config();
 
@@ -11,7 +13,10 @@ const SALT_ROUNDS = +process.env.CRYPT_SALT || 15;
 
 @Injectable()
 export class AuthService {
-  constructor(private databaseService: DatabaseService) {}
+  constructor(
+    private databaseService: DatabaseService,
+    private jwtService: JwtService,
+  ) {}
 
   async createOne({ login, password }: AuthDto): Promise<User> {
     let hashedPassword = '';
@@ -30,7 +35,7 @@ export class AuthService {
     });
   }
 
-  async logIn({ login, password }: AuthDto): Promise<User> {
+  async logIn({ login, password }: AuthDto): Promise<LoginResponse> {
     try {
       const user = await this.databaseService.user.findFirst({
         where: {
@@ -51,8 +56,11 @@ export class AuthService {
           return;
         }
 
-
-
+        const payload = { userId : user.id, login: user.login };
+        
+        return {
+          accessToken: await this.jwtService.signAsync(payload),
+        };
     } catch (e) {
       console.log(e);
     }
