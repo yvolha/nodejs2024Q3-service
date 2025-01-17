@@ -4,4 +4,5 @@ export enum ROUTES {
   ARTIST = 'artist',
   TRACK = 'track',
   FAVS = 'favs',
+  AUTH = 'auth',
 }
